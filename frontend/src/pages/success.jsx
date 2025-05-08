@@ -12,7 +12,7 @@ import { useCartStore } from "../store/cartStore";
 import Confetti from "react-confetti";
 
 const Success= () => {
-  const { clearCart } = useCartStore();
+  const { clearCart , cart } = useCartStore();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const sessionId = searchParams.get("session_id");
@@ -21,7 +21,12 @@ const Success= () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  
+  
+
   if (!sessionId) {
+    navigate("/cart");
+    
   }
 
   useEffect(() => {
@@ -37,7 +42,7 @@ const Success= () => {
       try {
         setLoading(true);
         const response = await axios.post(
-          "https://ecommerce-hwu4.onrender.com/api/checkout/create-order",
+          "http://localhost:5000/api/checkout/create-order",
           {
             sessionId,
           }

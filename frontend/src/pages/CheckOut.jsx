@@ -37,7 +37,7 @@ const Checkout = () => {
       const totalPrice = parseFloat(total) + shippingPrice;
 
       const response = await axios.post(
-        `https://ecommerce-hwu4.onrender.com/api/checkout/create-checkout-session`,
+        `http://localhost:5000/api/checkout/create-checkout-session`,
         {
           orderItems: cart.map((item) => ({
             name: item.product.name,

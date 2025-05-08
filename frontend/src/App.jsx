@@ -20,6 +20,7 @@ import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/authStore";
 import { useCartStore } from "./store/cartStore";
 import { useOrderStore } from "./store/orderStore";
+import Cancel from "./pages/Cancel";
 
 function App() {
   const { user, isCheckingAuth, checkAuth, fetchUserWishlist, fetchProfile } =
@@ -99,6 +100,10 @@ function App() {
           <Route
             path="/success"
             element={user ? <Success /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/cancel"
+            element={user ? <Cancel /> : <Navigate to="/login" replace />}
           />
           <Route
             path="/wishlist"
