@@ -4,15 +4,21 @@ import { useProductStore } from "../store/productStore";
 import { Heart, ShoppingCart, ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import { useCartStore } from "../store/cartStore";
 
 const DisplayProductDetails = () => {
   const { singleProduct, productDetails, isLoading } = useProductStore();
   const { usersWishlist, addOrRemoveWishlist } = useAuthStore();
+  const { addToCart } = useCartStore();
   const { id } = useParams();
 
   useEffect(() => {
     singleProduct(id);
   }, [id, singleProduct]);
+
+  const handleAddCart = async (productId) => {
+    await addToCart(productId);
+  };
 
   if (isLoading || !productDetails) {
     return (
@@ -108,7 +114,9 @@ const DisplayProductDetails = () => {
 
               <div className="mt-8">
                 <div className="flex space-x-4">
-                  <button className="btn btn-primary flex-1 gap-2">
+                  <button 
+                  onClick={() => handleAddCart(product._id)}
+                  className="btn btn-primary flex-1 gap-2">
                     <ShoppingCart className="h-5 w-5" />
                     Add to Cart
                   </button>

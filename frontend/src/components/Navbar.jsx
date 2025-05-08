@@ -24,7 +24,6 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Update admin status whenever user changes
     setIsAdmin(user?.user?.isAdmin || false);
   }, [user]);
 
@@ -156,35 +155,59 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Navigation - Icons Only */}
+          <div className="md:hidden flex items-center space-x-4">
+            {user && (
+              <>
+                <Link
+                  to="/cart"
+                  className="relative p-2 rounded-full hover:bg-base-200 transition-colors"
+                  aria-label="Cart"
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  {cart.length > 0 && (
+                    <span className="absolute -top-1 -right-1 badge badge-xs badge-primary">
+                      {cart.length}
+                    </span>
+                  )}
+                </Link>
+                <Link
+                  to="/wishlist"
+                  className="p-2 rounded-full hover:bg-base-200 transition-colors"
+                  aria-label="Wishlist"
+                >
+                  <Heart className="h-5 w-5" />
+                </Link>
+              </>
+            )}
+
             <button
               onClick={toggleMenu}
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
-              className="inline-flex items-center justify-center p-2 rounded-btn text-base-content hover:bg-base-200 focus:outline-none transition-colors"
+              className="p-2 rounded-full hover:bg-base-200 transition-colors"
             >
               {isMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-5 w-5" />
               )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden absolute top-16 left-0 right-0 bg-base-100 shadow-lg z-40 border-t border-base-200">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               to="/collections"
               onClick={toggleMenu}
-              className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium ${
                 isActive("/collections")
                   ? "bg-primary/10 text-primary"
-                  : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
+                  : "text-base-content hover:bg-base-200"
               }`}
             >
               <ShoppingBag className="h-5 w-5" />
@@ -195,10 +218,10 @@ const Navbar = () => {
               <Link
                 to="/admin"
                 onClick={toggleMenu}
-                className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium ${
                   isActive("/admin")
                     ? "bg-primary/10 text-primary"
-                    : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
+                    : "text-base-content hover:bg-base-200"
                 }`}
               >
                 <LayoutDashboard className="h-5 w-5" />
@@ -209,41 +232,12 @@ const Navbar = () => {
             {user ? (
               <>
                 <Link
-                  to="/cart"
-                  onClick={toggleMenu}
-                  className={`flex relative items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
-                    isActive("/cart")
-                      ? "bg-primary/10 text-primary"
-                      : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
-                  }`}
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  <span>Cart</span>
-                  {cart.length > 0 && (
-                    <span className="badge absolute -top-1 -right-1 badge-xs badge-primary">
-                      {cart.length}
-                    </span>
-                  )}
-                </Link>
-                <Link
-                  to="/wishlist"
-                  onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
-                    isActive("/wishlist")
-                      ? "bg-primary/10 text-primary"
-                      : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
-                  }`}
-                >
-                  <Heart className="h-5 w-5" />
-                  <span>Wishlist</span>
-                </Link>
-                <Link
                   to="/orders"
                   onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium ${
                     isActive("/orders")
                       ? "bg-primary/10 text-primary"
-                      : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
+                      : "text-base-content hover:bg-base-200"
                   }`}
                 >
                   <Package className="h-5 w-5" />
@@ -252,10 +246,10 @@ const Navbar = () => {
                 <Link
                   to="/profile"
                   onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium ${
                     isActive("/profile")
                       ? "bg-primary/10 text-primary"
-                      : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
+                      : "text-base-content hover:bg-base-200"
                   }`}
                 >
                   <User className="h-5 w-5" />
@@ -266,7 +260,7 @@ const Navbar = () => {
                     logout();
                     toggleMenu();
                   }}
-                  className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium text-error hover:bg-error/10 transition-colors"
+                  className="w-full text-left flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-error hover:bg-error/10"
                 >
                   <LogOut className="h-5 w-5" />
                   <span>Logout</span>
@@ -277,10 +271,10 @@ const Navbar = () => {
                 <Link
                   to="/login"
                   onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium ${
                     isActive("/login")
                       ? "bg-primary/10 text-primary"
-                      : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
+                      : "text-base-content hover:bg-base-200"
                   }`}
                 >
                   <LogIn className="h-5 w-5" />
@@ -289,7 +283,7 @@ const Navbar = () => {
                 <Link
                   to="/signup"
                   onClick={toggleMenu}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium text-primary-content bg-primary hover:bg-primary-focus transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-primary-content bg-primary hover:bg-primary-focus"
                 >
                   <UserPlus className="h-5 w-5" />
                   <span>Sign Up</span>
