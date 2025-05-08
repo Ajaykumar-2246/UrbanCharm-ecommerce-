@@ -53,7 +53,7 @@ function App() {
   // Show spinner while auth status is resolving
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen flex flex-col" data-theme="light">
+      <div className="min-h-screen flex flex-col" data-theme="sunset">
         <Navbar />
         <main className="flex-1 flex items-center justify-center p-4">
           <span className="loading loading-spinner loading-lg text-primary"></span>
