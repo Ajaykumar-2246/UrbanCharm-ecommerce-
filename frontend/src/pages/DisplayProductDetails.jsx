@@ -115,7 +115,7 @@ const DisplayProductDetails = () => {
               <div className="mt-8">
                 <div className="flex space-x-4">
                   <button 
-                  onClick={() => handleAddCart(product._id)}
+                  onClick={() => handleAddCart(productDetails._id)}
                   className="btn btn-primary flex-1 gap-2">
                     <ShoppingCart className="h-5 w-5" />
                     Add to Cart
