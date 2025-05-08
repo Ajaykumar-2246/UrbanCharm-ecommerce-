@@ -79,7 +79,7 @@ const DisplayProductDetails = () => {
                       (item) => item.product._id === productDetails._id
                     )
                       ? "text-error fill-error"
-                      : "text-base-content hover:text-error"
+                      : "fill-red-500 text-red-500"
                   }`}
                 />
               </button>
