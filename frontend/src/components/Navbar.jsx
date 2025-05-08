@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   ShoppingCart,
@@ -18,10 +18,15 @@ import { useCartStore } from "../store/cartStore";
 
 const Navbar = () => {
   const { user, logout } = useAuthStore();
-  const {cart}=useCartStore();
+  const { cart } = useCartStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
-  const isAdmin = user?.user?.isAdmin;
+
+  useEffect(() => {
+    // Update admin status whenever user changes
+    setIsAdmin(user?.user?.isAdmin || false);
+  }, [user]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -35,7 +40,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              UrbanCharm
+                UrbanCharm
               </h1>
             </Link>
           </div>
@@ -54,24 +59,25 @@ const Navbar = () => {
               <span>Collections</span>
             </Link>
 
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium transition-colors ${
+                  isActive("/admin")
+                    ? "bg-primary/10 text-primary"
+                    : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
+                }`}
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                <span>Dashboard</span>
+              </Link>
+            )}
+
             {user ? (
               <>
-                {isAdmin && (
-                  <Link
-                    to="/admin"
-                    className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-sm font-medium transition-colors ${
-                      isActive("/admin")
-                        ? "bg-primary/10 text-primary"
-                        : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
-                    }`}
-                  >
-                    <LayoutDashboard className="h-4 w-4" />
-                    <span>Dashboard</span>
-                  </Link>
-                )}
                 <Link
                   to="/cart"
-                  className={`flex relative items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-sm font-medium transition-colors ${
+                  className={`flex relative items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium transition-colors ${
                     isActive("/cart")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -80,14 +86,14 @@ const Navbar = () => {
                   <ShoppingCart className="h-4 w-4" />
                   <span>Cart</span>
                   {cart.length > 0 && (
-                    <span className="badge absolute top-0 left-0 badge-xs badge-primary">
+                    <span className="badge absolute -top-1 -right-1 badge-xs badge-primary">
                       {cart.length}
                     </span>
                   )}
                 </Link>
                 <Link
                   to="/wishlist"
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium transition-colors ${
                     isActive("/wishlist")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -98,7 +104,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/orders"
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium transition-colors ${
                     isActive("/orders")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -109,7 +115,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/profile"
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium transition-colors ${
                     isActive("/profile")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -120,7 +126,7 @@ const Navbar = () => {
                 </Link>
                 <button
                   onClick={logout}
-                  className="flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-sm font-medium text-error hover:bg-error/10 transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium text-error hover:bg-error/10 transition-colors"
                 >
                   <LogOut className="h-4 w-4" />
                   <span>Logout</span>
@@ -130,7 +136,7 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium transition-colors ${
                     isActive("/login")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -141,7 +147,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/signup"
-                  className="flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-sm font-medium text-primary-content bg-primary hover:bg-primary-focus transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium text-primary-content bg-primary hover:bg-primary-focus transition-colors"
                 >
                   <UserPlus className="h-4 w-4" />
                   <span>Sign Up</span>
@@ -175,7 +181,7 @@ const Navbar = () => {
             <Link
               to="/collections"
               onClick={toggleMenu}
-              className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium transition-colors ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
                 isActive("/collections")
                   ? "bg-primary/10 text-primary"
                   : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -185,26 +191,27 @@ const Navbar = () => {
               <span>Collections</span>
             </Link>
 
+            {isAdmin && (
+              <Link
+                to="/admin"
+                onClick={toggleMenu}
+                className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
+                  isActive("/admin")
+                    ? "bg-primary/10 text-primary"
+                    : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
+                }`}
+              >
+                <LayoutDashboard className="h-5 w-5" />
+                <span>Dashboard</span>
+              </Link>
+            )}
+
             {user ? (
               <>
-                {isAdmin && (
-                  <Link
-                    to="/admin"
-                    onClick={toggleMenu}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium transition-colors ${
-                      isActive("/admin")
-                        ? "bg-primary/10 text-primary"
-                        : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
-                    }`}
-                  >
-                    <LayoutDashboard className="h-5 w-5" />
-                    <span>Dashboard</span>
-                  </Link>
-                )}
                 <Link
                   to="/cart"
                   onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium transition-colors ${
+                  className={`flex relative items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
                     isActive("/cart")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -212,11 +219,16 @@ const Navbar = () => {
                 >
                   <ShoppingCart className="h-5 w-5" />
                   <span>Cart</span>
+                  {cart.length > 0 && (
+                    <span className="badge absolute -top-1 -right-1 badge-xs badge-primary">
+                      {cart.length}
+                    </span>
+                  )}
                 </Link>
                 <Link
                   to="/wishlist"
                   onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
                     isActive("/wishlist")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -228,7 +240,7 @@ const Navbar = () => {
                 <Link
                   to="/orders"
                   onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
                     isActive("/orders")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -240,7 +252,7 @@ const Navbar = () => {
                 <Link
                   to="/profile"
                   onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
                     isActive("/profile")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -254,7 +266,7 @@ const Navbar = () => {
                     logout();
                     toggleMenu();
                   }}
-                  className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium text-error hover:bg-error/10 transition-colors"
+                  className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium text-error hover:bg-error/10 transition-colors"
                 >
                   <LogOut className="h-5 w-5" />
                   <span>Logout</span>
@@ -265,7 +277,7 @@ const Navbar = () => {
                 <Link
                   to="/login"
                   onClick={toggleMenu}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium transition-colors ${
                     isActive("/login")
                       ? "bg-primary/10 text-primary"
                       : "text-base-content/80 hover:bg-base-200 hover:text-base-content"
@@ -277,7 +289,7 @@ const Navbar = () => {
                 <Link
                   to="/signup"
                   onClick={toggleMenu}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-btn rounded-md  text-base font-medium text-primary-content bg-primary hover:bg-primary-focus transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-base font-medium text-primary-content bg-primary hover:bg-primary-focus transition-colors"
                 >
                   <UserPlus className="h-5 w-5" />
                   <span>Sign Up</span>
