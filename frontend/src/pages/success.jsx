@@ -7,12 +7,12 @@ import {
   ArrowRight,
   HandHeart,
 } from "lucide-react";
-import axios from "axios";
+import { axiosInstance } from "../store/axiosInstance";
 import { useCartStore } from "../store/cartStore";
 import Confetti from "react-confetti";
 
-const Success= () => {
-  const { clearCart , cart } = useCartStore();
+const Success = () => {
+  const { clearCart, cart } = useCartStore();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const sessionId = searchParams.get("session_id");
@@ -21,12 +21,8 @@ const Success= () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
-  
-
   if (!sessionId) {
     navigate("/cart");
-    
   }
 
   useEffect(() => {
@@ -41,12 +37,9 @@ const Success= () => {
     const handleCheckoutSuccess = async () => {
       try {
         setLoading(true);
-        const response = await axios.post(
-          "http://localhost:5000/api/checkout/create-order",
-          {
-            sessionId,
-          }
-        );
+        const response = await axiosInstance.post("/checkout/create-order", {
+          sessionId,
+        });
 
         if (!response.data) {
           throw new Error("No data received from server");
@@ -144,4 +137,4 @@ const Success= () => {
   );
 };
 
-export default Success
+export default Success;

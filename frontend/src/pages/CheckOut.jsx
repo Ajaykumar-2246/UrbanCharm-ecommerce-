@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
+import { axiosInstance } from "../store/axiosInstance";
 import { ArrowLeft, Truck } from "lucide-react";
 
 const Checkout = () => {
@@ -29,15 +29,14 @@ const Checkout = () => {
   } = useForm();
 
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-  
 
   const onSubmit = async (formData) => {
     try {
       const shippingPrice = total > 1000 ? 0 : 50;
       const totalPrice = parseFloat(total) + shippingPrice;
 
-      const response = await axios.post(
-        `http://localhost:5000/api/checkout/create-checkout-session`,
+      const response = await axiosInstance.post(
+        `/checkout/create-checkout-session`,
         {
           orderItems: cart.map((item) => ({
             name: item.product.name,
