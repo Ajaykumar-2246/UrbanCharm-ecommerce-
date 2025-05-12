@@ -39,6 +39,7 @@ const DisplayProductDetails = () => {
         {/* Back Button */}
         <Link
           to="/collections"
+    
           className="flex items-center text-base-content/70 hover:text-primary mb-6 transition-colors"
         >
           <ChevronLeft className="h-5 w-5" />

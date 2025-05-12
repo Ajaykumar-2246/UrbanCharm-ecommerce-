@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { axiosInstance } from "./axiosInstance";
 
-export const useCartStore = create((set) => ({
+export const useCartStore = create((set,get) => ({
   cart: [],
+  cartCount: () => get().cart.length,
 
   getCart: async () => {
     try {

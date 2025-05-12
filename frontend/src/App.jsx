@@ -64,7 +64,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col" data-theme="sunset">
+    <div className="min-h-screen w-full flex flex-col" data-theme="sunset">
       <Toaster position="top-center" />
       <Navbar />
       <main className="flex-1">

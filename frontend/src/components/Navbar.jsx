@@ -32,7 +32,7 @@ const Navbar = () => {
   const isActive = (path) => location.pathname.startsWith(path);
 
   return (
-    <nav className="bg-base-100 shadow-sm sticky top-0 z-50 border-b border-base-200">
+    <nav className="bg-base-100 w-full shadow-sm sticky top-0 z-50 border-b border-base-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo */}
@@ -45,7 +45,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-1">
             <Link
               to="/collections"
               className={`flex items-center gap-2 px-3 py-2 rounded-btn rounded-md text-sm font-medium transition-colors ${
@@ -156,7 +156,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Navigation - Icons Only */}
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="lg:hidden flex items-center space-x-4">
             {user && (
               <>
                 <Link

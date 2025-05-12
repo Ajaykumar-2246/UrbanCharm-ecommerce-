@@ -34,8 +34,29 @@ export const create = async (req, res) => {
 // @desc Get all products
 export const AllProducts = async (req, res) => {
   try {
-    const products = await Product.find({}).sort({ createdAt: -1 });
-    res.status(200).json({ products });
+    // Get page and limit from query params
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+
+    // Calculate how many products to skip
+    const skip = (page - 1) * limit;
+
+    // Fetch products for current page
+    const products = await Product.find({})
+      .sort({ createdAt: -1 }) // Optional: sort by newest
+      .skip(skip)
+      .limit(limit);
+
+    // Get total number of products
+    const totalCount = await Product.countDocuments();
+
+    // Send products and total count
+    res.status(200).json({
+      products,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

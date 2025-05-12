@@ -1,4 +1,3 @@
-// src/store/productStore.js
 import { create } from "zustand";
 import { axiosInstance } from "./axiosInstance";
 
@@ -7,28 +6,29 @@ export const useProductStore = create((set) => ({
   newArivals: [],
   allProducts: [],
   productDetails: null,
+  totalCount: 0,
+  currentPage: 1, 
+  totalPages: 1, 
 
-  addProduct: async (productData) => {
+  // Method to fetch products with pagination
+  getProducts: async (page = 1, limit =20) => {
     try {
-      const res = await axiosInstance.post("/products/create", productData);
-      // Optionally update state if needed
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  },
+      const res = await axiosInstance.get("/products/allProducts", {
+        params: { page, limit },
+      });
 
-  getProducts: async () => {
-    try {
-      const res = await axiosInstance.get("/products/allProducts");
       set({
         allProducts: res.data.products,
+        totalCount: res.data.totalCount,
+        currentPage: res.data.currentPage,
+        totalPages: res.data.totalPages,
       });
     } catch (error) {
       console.log(error);
     }
   },
 
+  // Admin methods
   AdminProducts: async () => {
     try {
       const res = await axiosInstance.get("/products/getUserProducts");

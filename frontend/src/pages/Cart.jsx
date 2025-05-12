@@ -20,7 +20,7 @@ const Cart = () => {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Your Shopping Cart</h1>
 
-        {cart && cart.length > 0 ? (
+        {Array.isArray(cart) && Array.isArray(cart[0]) && cart.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
